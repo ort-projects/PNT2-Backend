@@ -1,0 +1,15 @@
+### Obtener todos los productos
+GET http://localhost:3000/productos
+
+### Obtener producto 1
+GET http://localhost:3000/productos/1
+
+### Obtener carrito 1
+GET http://localhost:3000/carritos/1
+### Crear carrito
+POST http://localhost:3000/carritos
+Content-Type: application/json
+
+{
+  "usuarioId": 1
+}
