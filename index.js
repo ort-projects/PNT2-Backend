@@ -7,10 +7,12 @@ import errorHandler from "./middlewares/errorHandler.js";
 import createRouter from "./routes/index.js";
 import makeProductoUseCases from './useCases/productos/makeProductosUseCases.js'
 import { productosDao } from "./daos/productosDao.js";
+import cors from "cors"
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 
 
