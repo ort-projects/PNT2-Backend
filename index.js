@@ -2,6 +2,7 @@ import express from "express"
 import CarritosController from './controllers/carritosController.js'
 import LoginController from "./controllers/loginController.js";
 import ProductosController from "./controllers/productosController.js";
+import AdminController from "./controllers/adminController.js";
 import notFound from './middlewares/notFound.js'
 import errorHandler from "./middlewares/errorHandler.js";
 import createRouter from "./routes/index.js";
@@ -16,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use(createRouter(new CarritosController(), new ProductosController(makeProductoUseCases(productosDao)), new LoginController()));
+app.use(createRouter(new CarritosController(), new ProductosController(makeProductoUseCases(productosDao)), new LoginController(), new AdminController()));
 
 app.use(notFound);
 app.use(errorHandler);
