@@ -13,8 +13,6 @@ const dashData = (anioSeleccionado) => [
   { id: 12, fecha: `${anioSeleccionado}-08-22`, productos: [{ productoId: 3, cantidad: 3 }] },
 ];
 
-async function getDashboardData(anioSeleccionado){
+export default async function getDashboardData(anioSeleccionado){
     return dashData(anioSeleccionado);
 }
-
-export default getDashboardData;

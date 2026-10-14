@@ -1,14 +1,10 @@
-import login from "../useCases/login/login.js";
-
-class LoginController{
-    constructor(){
-
+export default class LoginController{
+    constructor(loginUseCases){
+        this.loginUseCases = loginUseCases;
     }
 
     async login(req, res) {
-        await login(req.body)
-        return res.sendStatus(204);
+        const token = await this.loginUseCases.login(req.body);
+        return res.status(200).json({ token: token })
     }
 }
-
-export default LoginController;

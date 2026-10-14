@@ -1,12 +1,10 @@
-import getCart from "../useCases/carritos/getCart.js";
-
-class CarritosController{
-    constructor(){
-
+export default class CarritosController{
+    constructor(carritosUseCases){
+        this.carritosUseCases = carritosUseCases;
     }
 
     async getCart(req, res) {
-        const carrito = await getCart(Number(req.params.id));
+        const carrito = await this.carritosUseCases.getCart(Number(req.params.id));
         res.status(200).json(carrito);
 
     }
@@ -16,5 +14,3 @@ class CarritosController{
     }
 
 }
-
-export default CarritosController;
