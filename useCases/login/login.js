@@ -1,16 +1,9 @@
 import AppError from "../../errors/AppError.js";
 
-const usuariosValidos = [
-    {username: "gonzalo@cabo.com", password:"12345678"},
-    {username: "dana@mehle.com", password:"12345678"},
-    {username: "gabriel@teruel.com", password:"12345678"}
-];
-
-async function login(data) {
-    if(!usuariosValidos.some(x => x.username == data.username && x.password == data.password))
+export default async function login(data, { userRepository, tokenService }) {
+    const user = await userRepository.getUser(data.username);
+    if(!user || user.password !== data.password)
         throw new AppError("USER_NOT_FOUND", "No se encontro el usuario", 400)
-        
-    return true;
-}
 
-export default login;
+    return tokenService.createToken(user);
+}
