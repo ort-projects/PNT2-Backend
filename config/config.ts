@@ -1,4 +1,4 @@
-const PORT = Number(process.env.PORT) || 8000;
+const PORT = Number(process.env.PORT) || 3000;
 const NODE_ENV = process.env.NODE_ENV || "development";
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
 const DATABASE_USERNAME = process.env.DATABASE_USERNAME;
