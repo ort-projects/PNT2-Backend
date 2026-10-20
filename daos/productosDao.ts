@@ -1,13 +1,20 @@
-import { productos } from "../data/productsData.js";
+import type { PrismaClient } from "../generated/prisma/client.js";
 import type { ProductosDao as IProductosDao } from "../types/daos.js";
 
 class ProductosDao implements IProductosDao {
+    prisma: PrismaClient;
+
+    constructor(prisma: PrismaClient){
+        this.prisma = prisma;
+    }
+
     async getProduct(id: number){
-        return productos.find(x => x.id == id);
+        const producto = await this.prisma.producto.findUnique({ where: { id } });
+        return producto ?? undefined;
     }
     async getProducts(){
-        return productos;
+        return this.prisma.producto.findMany();
     }
 }
 
-export const productosDao = new ProductosDao();
+export default ProductosDao;

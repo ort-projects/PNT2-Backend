@@ -1,6 +1,4 @@
-import type { Venta } from "../../types/entities.js";
-
-const dashData = (anioSeleccionado: unknown): Venta[] => [
+const dashData = (anioSeleccionado: unknown) => [
   { id: 1, fecha: `${anioSeleccionado}-01-12`, productos: [{ productoId: 1, cantidad: 2 }, { productoId: 2, cantidad: 1 }] },
   { id: 2, fecha: `${anioSeleccionado}-01-26`, productos: [{ productoId: 3, cantidad: 1 }] },
   { id: 3, fecha: `${anioSeleccionado}-02-08`, productos: [{ productoId: 1, cantidad: 1 }] },

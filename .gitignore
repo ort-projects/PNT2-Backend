@@ -143,3 +143,7 @@ vite.config.ts.timestamp-*
 .vite/
 
 .vscode
+# Prisma
+generated/
+*.db
+*.db-journal
