@@ -17,3 +17,17 @@ model Producto {
 
   @@map("productos")
 }
+
+enum Rol {
+  admin
+  user
+}
+
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  name     String
+  surname  String
+  password String
+  role     Rol
+}
