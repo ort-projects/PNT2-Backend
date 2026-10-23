@@ -2,7 +2,7 @@ import LoginController from "../controllers/loginController.js";
 import ProductosController from "../controllers/productosController.js";
 import AdminController from "../controllers/adminController.js";
 import ProductosDao from "../daos/productosDao.js";
-import { usuariosDao } from "../daos/usuariosDao.js";
+import UsuariosDao from "../daos/usuariosDao.js";
 import makeAdminAuth from "../middlewares/adminAuth.js";
 import makeAdminUseCases from "../useCases/admin/makeAdminUseCases.js";
 import makeLoginUseCases from "../useCases/login/makeLoginUseCases.js";
@@ -20,7 +20,7 @@ function buildContainer() {
 
     const productosDao = new ProductosDao(prisma);
 
-    const loginUseCases = makeLoginUseCases({ userRepository: usuariosDao, tokenService });
+    const loginUseCases = makeLoginUseCases({ userRepository: UsuariosDao, tokenService });
     const productosUseCases = makeProductosUseCases(productosDao);
     const adminUseCases = makeAdminUseCases();
 

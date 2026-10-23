@@ -1,16 +1,20 @@
-import type { Usuario } from "../types/entities.js";
+import type { PrismaClient } from "../generated/prisma/client.js";
 import type { UsuariosDao as IUsuariosDao } from "../types/daos.js";
 
-const usuarios: Usuario[] = [
-    {username: "gonzalo@cabo.com", name: "Gonzalo", surname: "Cabo", password:"12345678", role: "admin"},
-    {username: "dana@mehle.com", name: "Dana", surname: "Mehle", password:"12345678", role: "admin"},
-    {username: "gabriel@teruel.com", name: "Gabriel", surname: "Teruel", password:"12345678", role: "user"}
-];
-
 class UsuariosDao implements IUsuariosDao {
-    async getUser(username: string) {
-        return usuarios.find(user => user.username === username);
+    prisma: PrismaClient;
+
+    constructor(prisma: PrismaClient){
+        this.prisma = prisma;
+    }
+
+    async getUser(id: number){
+        const User = await this.prisma.usuario.findUnique({ where: { id } });
+        return User ?? undefined;
+    }
+    async getUsers(){
+        return this.prisma.usuario.findMany();
     }
 }
 
-export const usuariosDao = new UsuariosDao();
+export default UsuariosDao;

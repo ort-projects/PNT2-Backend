@@ -6,5 +6,6 @@ export interface ProductosDao {
 }
 
 export interface UsuariosDao {
-    getUser(username: string): Promise<Usuario | undefined>;
+    getUser(id: number): Promise<Usuario | undefined>;
+    getUsers(): Promise<Usuario[]>;
 }
