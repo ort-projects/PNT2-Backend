@@ -130,16 +130,14 @@ async function main() {
 
   console.log(`Seed completo: ${productos.length} productos.`);
 
-  for (const usuario of usuarios) {
+  for (const [index, usuario] of usuarios.entries()) {
+      const id = index + 1;
     await prisma.usuario.upsert({
-      where: { username: usuario.username },
-      update: {
-        name: usuario.name,
-        surname: usuario.surname,
-        password: usuario.password,
-        role: usuario.role,
-      },
-      create: usuario,
+      
+      where: { id },
+      update: usuario,
+      create: { id, ...usuario },
+      
     });
   }
 
