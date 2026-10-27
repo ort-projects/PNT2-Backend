@@ -9,7 +9,7 @@ export interface LoginDependencies {
 }
 
 export default async function login(data: LoginInput, { userRepository, tokenService }: LoginDependencies) {
-    const user = await userRepository.getUser(data.username);
+    const user = await userRepository.getUserByUsername(data.username);
     if(!user || user.password !== data.password)
         throw new AppError("USER_NOT_FOUND", "No se encontro el usuario", 400)
 

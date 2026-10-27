@@ -12,6 +12,10 @@ class UsuariosDao implements IUsuariosDao {
         const User = await this.prisma.usuario.findUnique({ where: { id } });
         return User ?? undefined;
     }
+    async getUserByUsername(username: string){
+        const user = await this.prisma.usuario.findUnique({where: { username }});
+        return user ?? undefined;
+    }
     async getUsers(){
         return this.prisma.usuario.findMany();
     }
