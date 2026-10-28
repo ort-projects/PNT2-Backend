@@ -5,7 +5,7 @@ class PedidosController {
     constructor(private pedidosUseCases: PedidosUseCases) {}
 
     async createOrder(req: Request, res: Response) {
-        const order = await this.pedidosUseCases.createOrder(req.auth!.sub, req.body)
+        const order = await this.pedidosUseCases.createOrder(req.auth!.sub, req.body?.items)
         res.status(201).json(order)
     }
 
