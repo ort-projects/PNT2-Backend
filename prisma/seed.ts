@@ -117,6 +117,59 @@ const usuarios = [
   },
 ] as const;
 
+const CANTIDAD_VENTAS_SEED = 1000;
+
+async function seedVentas() {
+  const ventasExistentes = await prisma.pedido.count();
+  if (ventasExistentes > 0) {
+    console.log(`Seed de ventas omitido: ya existen ${ventasExistentes} ventas.`);
+    return;
+  }
+
+  const fechaFin = new Date();
+  const fechaInicio = new Date(fechaFin.getTime() - 1000 * 24 * 60 * 60 * 1000);
+  const intervalo = (fechaFin.getTime() - fechaInicio.getTime()) / (CANTIDAD_VENTAS_SEED - 1);
+  const ventas = Array.from({ length: CANTIDAD_VENTAS_SEED }, (_, index) => {
+    const cantidadItems = 1 + (index % 3);
+    const items = Array.from({ length: cantidadItems }, (_, itemIndex) => {
+      const productoIndex = (index * 7 + itemIndex * 3) % productos.length;
+      const producto = productos[productoIndex];
+
+      return {
+        productId: productoIndex + 1,
+        price: producto.price,
+        quantity: 1 + ((index + itemIndex * 5) % 5),
+      };
+    });
+
+    return {
+      date: new Date(fechaInicio.getTime() + Math.round(intervalo * index)),
+      userId: (index % usuarios.length) + 1,
+      items,
+    };
+  });
+
+  await prisma.$transaction(async (tx) => {
+    await tx.pedido.createMany({
+      data: ventas.map(({ date, userId }) => ({ date, userId })),
+    });
+
+    const pedidosCreados = await tx.pedido.findMany({
+      where: { date: { gte: fechaInicio, lte: fechaFin } },
+      orderBy: { date: "asc" },
+      select: { id: true },
+    });
+
+    await tx.pedidoItem.createMany({
+      data: pedidosCreados.flatMap((pedido, index) =>
+        ventas[index].items.map((item) => ({ ...item, orderId: pedido.id })),
+      ),
+    });
+  });
+
+  console.log(`Seed completo: ${CANTIDAD_VENTAS_SEED} ventas con fechas distribuidas en los últimos 1000 días.`);
+}
+
 async function main() {
   for (const [index, producto] of productos.entries()) {
     const id = index + 1;
@@ -142,6 +195,8 @@ async function main() {
   }
 
   console.log(`Seed completo: ${usuarios.length} usuarios.`);
+
+  await seedVentas();
 }
 
 try {

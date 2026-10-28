@@ -7,6 +7,19 @@ export interface Producto {
     thumbnail: string;
 }
 
+export interface PedidoItem {
+    productId: number;
+    price: number;
+    quantity: number;
+}
+
+export interface Pedido {
+    id: number;
+    date: Date;
+    user: string;
+    items: PedidoItem[];
+}
+
 export type Rol = "admin" | "user";
 
 export interface Usuario {

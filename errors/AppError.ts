@@ -1,4 +1,4 @@
-class AppError extends Error {
+export default class AppError extends Error {
   code: string;
   statusCode: number;
   details?: unknown;
@@ -11,4 +11,3 @@ class AppError extends Error {
     this.details = details;
   }
 }
-export default AppError;

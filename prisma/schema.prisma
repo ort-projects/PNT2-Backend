@@ -14,6 +14,7 @@ model Producto {
   category    String
   price       Float
   thumbnail   String
+  orderItems  PedidoItem[]
 
   @@map("productos")
 }
@@ -30,4 +31,23 @@ model Usuario {
   surname  String
   password String
   role     Rol
+  orders   Pedido[]
+}
+
+model Pedido {
+  id        Int         @id @default(autoincrement())
+  date      DateTime    @default(now())
+  userId    Int
+  user      Usuario     @relation(fields: [userId], references: [id])
+  items     PedidoItem[]
+}
+
+model PedidoItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  price     Float
+  quantity  Int
+  order     Pedido   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Producto @relation(fields: [productId], references: [id])
 }
