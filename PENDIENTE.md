@@ -11,7 +11,7 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 | # | Tarea | Desbloquea (front) | Prioridad | Responsable | Estado |
 |:-:|-------|:------------------:|:---------:|:-----------:|:------:|
 | B1 | Crear pedido (`POST /pedidos`) | #1, #2 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
-| B2 | Pedidos con detalle de productos y total | #3, #5 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![En curso](https://img.shields.io/badge/-en%20curso-f9a825?style=flat-square) |
+| B2 | Pedidos con detalle de productos y total | #3, #5 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
@@ -34,7 +34,7 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 |--------|-------------|
 | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) | Sin empezar |
 | ![En curso](https://img.shields.io/badge/-en%20curso-f9a825?style=flat-square) | Alguien la está haciendo |
-| ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) | Terminada y mergeada |
+| ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) | Terminada en el código |
 
 ### Contrato de API para el front
 
@@ -72,7 +72,7 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 ---
 
-## 🔴 Tarea B2 — Pedidos con detalle de productos y total
+## ✅ Tarea B2 — Pedidos con detalle de productos y total
 
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
