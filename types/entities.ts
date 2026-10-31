@@ -9,6 +9,8 @@ export interface Producto {
 
 export interface PedidoItem {
     productId: number;
+    title: string;
+    thumbnail: string;
     price: number;
     quantity: number;
 }
@@ -16,7 +18,12 @@ export interface PedidoItem {
 export interface Pedido {
     id: number;
     date: Date;
-    user: string;
+    total: number;
+    user: {
+        username: string;
+        name: string;
+        surname: string;
+    };
     items: PedidoItem[];
 }
 

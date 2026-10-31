@@ -10,8 +10,8 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 
 | # | Tarea | Desbloquea (front) | Prioridad | Responsable | Estado |
 |:-:|-------|:------------------:|:---------:|:-----------:|:------:|
-| B1 | Crear pedido (`POST /pedidos`) | #1, #2 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
-| B2 | Pedidos con detalle de productos y total | #3, #5 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B1 | Crear pedido (`POST /pedidos`) | #1, #2 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
+| B2 | Pedidos con detalle de productos y total | #3, #5 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![En curso](https://img.shields.io/badge/-en%20curso-f9a825?style=flat-square) |
 | B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
@@ -44,8 +44,8 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 |:------:|------|:----:|--------------|-----------|:------:|
 | `POST` | `/login` | — | `{ username, password }` | `200 { token }` | ✅ existe |
 | `POST` | `/pedidos` | user | `{ items: [{ productId, quantity }] }` | `201` pedido creado | ✅ existe |
-| `GET` | `/pedidos` | user | — | `200` pedidos del usuario logueado | ✅ existe (falta detalle, ver B2) |
-| `GET` | `/pedidos/all` | admin | `?username=` (B6) | `200` todos los pedidos | ✅ existe (falta detalle y filtro) |
+| `GET` | `/pedidos` | user | — | `200` pedidos del usuario logueado, con detalle y `total` | ✅ existe |
+| `GET` | `/pedidos/all` | admin | `?username=` (B6) | `200` todos los pedidos, con detalle, `total` y usuario | ✅ existe (falta filtro, B6) |
 | `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` | ❌ falta (B4) |
 | `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ⚠️ hoy es público (B5) |
 | `POST` | `/ofertas` | admin | `{ productId, discount, ... }` | `201` | ❌ falta (B7) |
@@ -96,9 +96,9 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 **Criterios de aceptación**
 
-- [ ] Cada pedido trae `id`, `date`, `total` e ítems con `title`, `thumbnail`, `price` y `quantity`.
-- [ ] `/pedidos/all` trae el usuario con `username`, `name` y `surname`.
-- [ ] Ninguna respuesta incluye la contraseña.
+- [x] Cada pedido trae `id`, `date`, `total` e ítems con `title`, `thumbnail`, `price` y `quantity`.
+- [x] `/pedidos/all` trae el usuario con `username`, `name` y `surname`.
+- [x] Ninguna respuesta incluye la contraseña.
 
 ---
 
