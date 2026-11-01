@@ -1,4 +1,4 @@
-import type { Pedido, Producto, Usuario } from "./entities.ts";
+import type { Pedido, Producto, Usuario, NuevoUsuario, UsuarioPublico } from "./entities.ts";
 
 export interface ProductosDao {
     getProduct(id: number): Promise<Producto | undefined>;
@@ -7,8 +7,9 @@ export interface ProductosDao {
 
 export interface UsuariosDao {
     getUser(id: number): Promise<Usuario | undefined>;
-    getUserByUsername(username: string) : Promise<Usuario | undefined>;
+    getUserByUsername(username: string): Promise<Usuario | undefined>;
     getUsers(): Promise<Usuario[]>;
+    createUser(data: NuevoUsuario): Promise<UsuarioPublico>;
 }
 
 export interface PedidosDao {

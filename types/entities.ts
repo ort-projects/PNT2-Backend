@@ -36,3 +36,6 @@ export interface Usuario {
     password: string;
     role: Rol;
 }
+
+export type NuevoUsuario = Pick<Usuario, "username" | "name" | "surname" | "password">;
+export type UsuarioPublico = Pick<Usuario, "username" | "name" | "surname" | "role">;

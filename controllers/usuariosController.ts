@@ -1,21 +1,27 @@
 import type { Request, Response } from "express";
+import type { UsuarioInput } from "../schemas/usuarioSchema.js";
 import type { UsuariosUseCases } from "../useCases/usuarios/makeUsuariosUseCases.js";
 
-class UsuariosController{
+class UsuariosController {
     usuariosUseCases: UsuariosUseCases;
 
-    constructor(usuariosUseCases: UsuariosUseCases){
+    constructor(usuariosUseCases: UsuariosUseCases) {
         this.usuariosUseCases = usuariosUseCases;
     }
 
-    async getUsers(req: Request, res: Response){
-        const usuarios = await this.usuariosUseCases.getUsers(null);
-        res.status(200).json(usuarios);
+    async createUser(req: Request<{}, unknown, UsuarioInput>, res: Response) {
+        const usuario = await this.usuariosUseCases.createUser(req.body);
+        return res.status(201).json(usuario);
     }
 
-    async getUser(req: Request<{ id: string }>, res: Response){
+    async getUsers(req: Request, res: Response) {
+        const usuarios = await this.usuariosUseCases.getUsers(null);
+        return res.status(200).json(usuarios);
+    }
+
+    async getUser(req: Request<{ id: string }>, res: Response) {
         const usuario = await this.usuariosUseCases.getUser(Number(req.params.id));
-        res.status(200).json(usuario);
+        return res.status(200).json(usuario);
     }
 }
 
