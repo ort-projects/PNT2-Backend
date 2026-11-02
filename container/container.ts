@@ -17,20 +17,23 @@ import { createToken, verifyToken } from "../adapters/security/jwtTokenService.j
 import createRouter from "../routes/index.js";
 import prisma from "../connection/prisma.js";
 import type { TokenService } from "../types/services.js";
+import createPasswordHasher from "../adapters/security/passwordHasher.js";
+import { BCRYPT_ROUNDS } from '../config/config.js'
 
 function buildContainer() {
     const tokenService: TokenService = {
         createToken,
         verifyToken,
     };
+    const passwordHasher = createPasswordHasher({ rounds: BCRYPT_ROUNDS });
 
     const productosDao = new ProductosDao(prisma);
     const usuariosDao = new UsuariosDao(prisma);
     const pedidosDao = new PedidosDao(prisma);
 
-    const loginUseCases = makeLoginUseCases({ userRepository: usuariosDao, tokenService });
+    const loginUseCases = makeLoginUseCases({ userRepository: usuariosDao, tokenService, passwordHasher });
     const productosUseCases = makeProductosUseCases(productosDao);
-    const usuariosUseCases = makeUsuariosUseCases(usuariosDao);
+    const usuariosUseCases = makeUsuariosUseCases(usuariosDao, passwordHasher);
     const pedidosUseCases = makePedidosUseCases({ pedidosDao, usuariosDao, productosDao });
     const adminUseCases = makeAdminUseCases();
 

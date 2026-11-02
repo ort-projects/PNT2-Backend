@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import type { UsuariosUseCases } from "../useCases/usuarios/makeUsuariosUseCases.js";
+import type { UsuarioInput } from "../schemas/usuarioSchema.js";
 
 class UsuariosController{
     usuariosUseCases: UsuariosUseCases;
@@ -16,6 +17,11 @@ class UsuariosController{
     async getUser(req: Request<{ id: string }>, res: Response){
         const usuario = await this.usuariosUseCases.getUser(Number(req.params.id));
         res.status(200).json(usuario);
+    }
+
+    async createUser(req: Request<{}, unknown, UsuarioInput>, res: Response){
+        const usuario = await this.usuariosUseCases.createUser(req.body);
+        res.status(201).json(usuario);
     }
 }
 

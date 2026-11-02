@@ -37,3 +37,5 @@ export interface Usuario {
     password: string;
     role: Rol;
 }
+
+export type UsuarioPublico = Omit<Usuario, 'password'>;

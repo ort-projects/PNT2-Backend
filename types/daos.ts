@@ -1,6 +1,6 @@
 import type { Pedido, PedidoItem } from "../generated/prisma/client.js";
 import type { PedidoConDetalle } from "../daos/queries/pedidoConDetalle.js";
-import type { Producto, Usuario } from "./entities.js";
+import type { Producto, Usuario, UsuarioPublico } from "./entities.js";
 
 export interface ProductosDao {
     getProduct(id: number): Promise<Producto | undefined>;
@@ -9,9 +9,11 @@ export interface ProductosDao {
 }
 
 export interface UsuariosDao {
-    getUser(id: number): Promise<Usuario | undefined>;
-    getUserByUsername(username: string) : Promise<Usuario | undefined>;
-    getUsers(): Promise<Usuario[]>;
+    getUser(id: number): Promise<UsuarioPublico | undefined>;
+    getUserByUsername(username: string): Promise<UsuarioPublico | undefined>;
+    getUserCredentialsByUsername(username: string): Promise<Usuario | undefined>;
+    getUsers(): Promise<UsuarioPublico[]>;
+    createUser(data: Omit<Usuario, 'id' | 'role'>): Promise<UsuarioPublico>;
 }
 
 export interface NuevoPedido {

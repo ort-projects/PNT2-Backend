@@ -5,7 +5,7 @@ import type { TokenClaims } from '../../types/services.js'
 const JWT_SECRET = process.env.JWT_SECRET || 'modarg-admin-development-secret'
 const TOKEN_DURATION_SECONDS = 60 * 60
 
-export function createToken(user: Usuario): string {
+export function createToken(user: Pick<Usuario, 'username' | 'role' | 'name' | 'surname'>): string {
     const now = Math.floor(Date.now() / 1000)
     const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url')
     const payload = Buffer.from(JSON.stringify({

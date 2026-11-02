@@ -10,6 +10,11 @@ export interface TokenClaims {
 }
 
 export interface TokenService {
-    createToken(user: Usuario): string;
+    createToken(user: Pick<Usuario, 'username' | 'role' | 'name' | 'surname'>): string;
     verifyToken(token: string): TokenClaims | null;
+}
+
+export interface PasswordHasher {
+    hash(plain: string): Promise<string>;
+    compare(plain: string, hash: string): Promise<boolean>;
 }

@@ -1,4 +1,8 @@
 import prisma from "../connection/prisma.js";
+import createPasswordHasher from "../adapters/security/passwordHasher.js";
+import { BCRYPT_ROUNDS } from "../config/config.js"
+
+const passwordHasher = createPasswordHasher({ rounds: BCRYPT_ROUNDS });
 
 const productos = [
   {
@@ -185,11 +189,15 @@ async function main() {
 
   for (const [index, usuario] of usuarios.entries()) {
       const id = index + 1;
+    const usuarioConPasswordHasheada = {
+      ...usuario,
+      password: await passwordHasher.hash(usuario.password),
+    };
     await prisma.usuario.upsert({
       
       where: { id },
-      update: usuario,
-      create: { id, ...usuario },
+      update: usuarioConPasswordHasheada,
+      create: { id, ...usuarioConPasswordHasheada },
       
     });
   }
