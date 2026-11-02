@@ -1,11 +1,12 @@
 import type { Request, Response } from 'express'
+import type { OrderInput } from '../schemas/orderSchema.js'
 import type { PedidosUseCases } from '../useCases/pedidos/makePedidosUseCases.ts'
 
 class PedidosController {
     constructor(private pedidosUseCases: PedidosUseCases) {}
 
-    async createOrder(req: Request, res: Response) {
-        const order = await this.pedidosUseCases.createOrder(req.auth!.sub, req.body?.items)
+    async createOrder(req: Request<{}, unknown, OrderInput>, res: Response) {
+        const order = await this.pedidosUseCases.createOrder(req.auth!.sub, req.body)
         res.status(201).json(order)
     }
 

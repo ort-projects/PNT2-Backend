@@ -90,7 +90,7 @@ class PedidosDao implements IPedidosDao {
                         }))
                     },
                 },
-                include: incluirDetalle,
+                include: incluirDetalle
             })
         })
         return toPedido(pedido)
