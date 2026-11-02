@@ -31,7 +31,7 @@ function buildContainer() {
     const loginUseCases = makeLoginUseCases({ userRepository: usuariosDao, tokenService });
     const productosUseCases = makeProductosUseCases(productosDao);
     const usuariosUseCases = makeUsuariosUseCases(usuariosDao);
-    const pedidosUseCases = makePedidosUseCases(pedidosDao);
+    const pedidosUseCases = makePedidosUseCases({ pedidosDao, usuariosDao, productosDao });
     const adminUseCases = makeAdminUseCases();
 
     const loginController = new LoginController(loginUseCases);

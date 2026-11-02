@@ -30,6 +30,7 @@ export interface Pedido {
 export type Rol = "admin" | "user";
 
 export interface Usuario {
+    id: number;
     username: string;
     name: string;
     surname: string;

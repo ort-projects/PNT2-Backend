@@ -15,6 +15,10 @@ class ProductosDao implements IProductosDao {
     async getProducts(){
         return this.prisma.producto.findMany();
     }
+
+    async getProductsByIds(ids: number[]) {
+        return this.prisma.producto.findMany({ where: { id: { in: ids } } });
+    }
 }
 
 export default ProductosDao;
