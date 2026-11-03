@@ -9,6 +9,7 @@ export default function toPedido(pedido: PedidoConDetalle): Pedido {
     return {
         id: pedido.id,
         date: pedido.date,
+        status: pedido.status,
         total: Math.round(total * 100) / 100,
         user: {
             username: pedido.user.username,

@@ -34,9 +34,17 @@ model Usuario {
   orders   Pedido[]
 }
 
+enum EstadoPedido {
+  pendiente
+  enviado
+  entregado
+  cancelado
+}
+
 model Pedido {
-  id        Int         @id @default(autoincrement())
-  date      DateTime    @default(now())
+  id        Int          @id @default(autoincrement())
+  date      DateTime     @default(now())
+  status    EstadoPedido @default(pendiente)
   userId    Int
   user      Usuario     @relation(fields: [userId], references: [id])
   items     PedidoItem[]

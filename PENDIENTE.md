@@ -12,12 +12,13 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 |:-:|-------|:------------------:|:---------:|:-----------:|:------:|
 | B1 | Crear pedido (`POST /pedidos`) | #1, #2 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B2 | Pedidos con detalle de productos y total | #3, #5 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
-| B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 
 > La tarea #2 del front (mensaje de éxito, vaciar carrito, redirección) es solo de front: no necesita nada nuevo del backend.
 
@@ -48,6 +49,7 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 | `GET` | `/pedidos/all` | admin | `?username=` (B6) | `200` todos los pedidos, con detalle, `total` y usuario | ✅ existe (falta filtro, B6) |
 | `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` usuario sin `password` (sin token) | ✅ existe |
 | `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ✅ existe (también `GET /usuarios/:id`, admin) |
+| `PATCH` | `/pedidos/:id` | admin | `{ status }` | `200` pedido actualizado | ❌ falta (B9) |
 | `POST` | `/ofertas` | admin | `{ productId, discount, ... }` | `201` | ❌ falta (B7) |
 | `GET` | `/ofertas` | — | — | `200` ofertas vigentes | ❌ falta (B8) |
 
@@ -102,10 +104,27 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 ---
 
-## 🟡 Tarea B3 — Estado del pedido
+## ✅ Tarea B3 — Estado del pedido
 
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
+| ![Media](https://img.shields.io/badge/-MEDIA-f9a825?style=flat-square) | Front #3, #5 | `prisma/schema.prisma`, `prisma/migrations/20261103224347_estado_pedido`, `daos/queries/pedidoConDetalle.ts`, `useCases/pedidos/toPedido.ts`, `types/entities.ts` |
+
+**Ya está hecho.** `Pedido` tiene el campo `status` (enum `EstadoPedido`) con default `pendiente`.
+
+- Estados posibles: `pendiente`, `enviado`, `entregado`, `cancelado`.
+- `GET /pedidos` y `GET /pedidos/all` devuelven `status` en cada pedido.
+- Por ahora **nadie puede cambiar el estado**: todos los pedidos quedan en `pendiente`. Cambiarlo es la tarea B9.
+
+**Criterios de aceptación**
+
+- [x] Los pedidos nuevos se crean con el estado por defecto.
+- [x] Los pedidos existentes quedan con el estado por defecto después de la migración.
+- [x] `GET /pedidos` y `GET /pedidos/all` devuelven `status`.
+
+> ⚠️ **Después de hacer pull:** correr `npx prisma migrate dev` para aplicar la migración nueva en tu `dev.db`.
+
+---------:|:----------:|----------|
 | ![Media](https://img.shields.io/badge/-MEDIA-f9a825?style=flat-square) | Front #3, #5 | `prisma/schema.prisma`, migración nueva, `types/entities.ts` |
 
 **Objetivo:** las tablas del front muestran una columna **estado**, pero el modelo `Pedido` no tiene ese campo.
@@ -269,6 +288,31 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 - [ ] Sin ofertas vigentes → `200 []`.
 
 > 🔗 **Depende de:** B7.
+
+---
+
+## 🟢 Tarea B9 — Cambiar el estado de un pedido
+
+| Prioridad | Desbloquea | Archivos |
+|:---------:|:----------:|----------|
+| ![Baja](https://img.shields.io/badge/-BAJA-28a745?style=flat-square) | — | `routes/pedidosRoutes.ts`, `controllers/pedidosController.ts`, `useCases/pedidos/`, `daos/pedidosDao.ts`, schema Zod nuevo |
+
+**Objetivo:** hoy todos los pedidos quedan en `pendiente` para siempre (B3). Esta tarea agrega la forma de cambiar el estado. **No es un requisito actual:** queda anotada como mejora a futuro.
+
+**Requisitos**
+
+- `PATCH /pedidos/:id` con `adminAuth` y body `{ status }`, validado con Zod (`z.enum(["pendiente", "enviado", "entregado", "cancelado"])`).
+- Pedido inexistente → `404`. Id inválido → `400`.
+
+**Criterios de aceptación**
+
+- [ ] Solo un admin puede cambiar el estado.
+- [ ] Estado fuera de la lista → `400 VALIDACION`.
+- [ ] Respuesta `200` con el pedido actualizado.
+
+> ❓ **A definir:** si hay transiciones prohibidas (ej. de `entregado` o `cancelado` no se puede volver a `pendiente`).
+
+> 🔗 **Depende de:** B3.
 
 ---
 

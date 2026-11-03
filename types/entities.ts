@@ -15,9 +15,12 @@ export interface PedidoItem {
     quantity: number;
 }
 
+export type EstadoPedido = "pendiente" | "enviado" | "entregado" | "cancelado";
+
 export interface Pedido {
     id: number;
     date: Date;
+    status: EstadoPedido;
     total: number;
     user: {
         username: string;
