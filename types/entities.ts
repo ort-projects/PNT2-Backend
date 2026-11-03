@@ -5,7 +5,10 @@ export interface Producto {
     category: string;
     price: number;
     thumbnail: string;
+    destacado: boolean;
 }
+
+export type ProductoPatch = Partial<Pick<Producto, 'title' | 'description' | 'category' | 'price' | 'thumbnail' | 'destacado'>>;
 
 export interface PedidoItem {
     productId: number;
