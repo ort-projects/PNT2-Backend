@@ -26,7 +26,7 @@ export default function createRouter({ productosController, loginController, adm
   
   router.use("/productos", createProductosRoutes(productosController));
   router.use("/login", createLoginRoutes(loginController));
-  router.use("/usuarios", createUsuariosRoutes(usuariosController));
+  router.use("/usuarios", createUsuariosRoutes(usuariosController, adminAuth));
   router.use("/pedidos", createPedidosRoutes(pedidosController, userAuth, adminAuth));
   router.use("/admin", createAdminRoutes(adminController, adminAuth));
   

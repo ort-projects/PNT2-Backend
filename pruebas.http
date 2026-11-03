@@ -4,5 +4,6 @@ GET http://localhost:3000/productos
 ### Obtener producto 1
 GET http://localhost:3000/productos/1
 
-### Obtener usuarios
+### Obtener usuarios (requiere token de admin, ver POST /login)
 GET http://localhost:3000/usuarios
+Authorization: Bearer <token>

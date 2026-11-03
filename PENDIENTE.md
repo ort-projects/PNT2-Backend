@@ -13,8 +13,8 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 | B1 | Crear pedido (`POST /pedidos`) | #1, #2 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B2 | Pedidos con detalle de productos y total | #3, #5 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
-| B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
-| B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
+| B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
@@ -46,8 +46,8 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 | `POST` | `/pedidos` | user | `{ items: [{ productId, quantity }] }` | `201` pedido creado | ✅ existe |
 | `GET` | `/pedidos` | user | — | `200` pedidos del usuario logueado, con detalle y `total` | ✅ existe |
 | `GET` | `/pedidos/all` | admin | `?username=` (B6) | `200` todos los pedidos, con detalle, `total` y usuario | ✅ existe (falta filtro, B6) |
-| `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` | ❌ falta (B4) |
-| `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ⚠️ hoy es público (B5) |
+| `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` usuario sin `password` (sin token) | ✅ existe |
+| `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ✅ existe (también `GET /usuarios/:id`, admin) |
 | `POST` | `/ofertas` | admin | `{ productId, discount, ... }` | `201` | ❌ falta (B7) |
 | `GET` | `/ofertas` | — | — | `200` ofertas vigentes | ❌ falta (B8) |
 
@@ -64,7 +64,7 @@ Los errores siguen el formato del `errorHandler`: `{ error: { code, message, det
 **Ya está hecho.** `POST /pedidos` con `userAuth`:
 
 - Sin token o con token vencido → `401` (`TOKEN_MISSING` / `TOKEN_INVALID`), que es lo que el front usa para abrir el modal de login.
-- Items vacíos o inválidos → `400` (`ITEMS_INVALIDOS` / `ITEM_INVALIDO`).
+- Items vacíos o inválidos → `400 VALIDACION` con `details` por campo (validado con Zod en `schemas/orderSchema.ts`).
 - Producto inexistente → `404` (`PRODUCTO_NO_ENCONTRADO`).
 - OK → `201` con el pedido creado. El precio de cada ítem se toma del producto en la base, no del front.
 
@@ -126,13 +126,13 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 ---
 
-## 🔴 Tarea B4 — Registro de usuario
+## ✅ Tarea B4 — Registro de usuario
 
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
 | ![Alta](https://img.shields.io/badge/-ALTA-d73a49?style=flat-square) | Front #4 | `schemas/usuarioSchema.ts`, `useCases/usuarios/createUser.ts`, `daos/usuariosDao.ts`, `controllers/usuariosController.ts`, `routes/usuariosRoutes.ts` |
 
-**Objetivo:** que el modal de "Crear usuario" del front tenga un endpoint al que enviar el alta. Hoy `createUser.ts` y `usuarioSchema.ts` existen pero están **vacíos**, y no hay ruta `POST /usuarios`.
+**Objetivo:** que el modal de "Crear usuario" del front tenga un endpoint al que enviar el alta.
 
 **Requisitos**
 
@@ -145,33 +145,56 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 **Criterios de aceptación**
 
-- [ ] Datos inválidos → `400 VALIDACION` con `details` por campo.
-- [ ] Email repetido → `409`.
-- [ ] No se puede crear un admin desde este endpoint.
-- [ ] La respuesta no incluye `password`.
+- [x] Datos inválidos → `400 VALIDACION` con `details` por campo.
+- [x] Email repetido → `409`.
+- [x] No se puede crear un admin desde este endpoint.
+- [x] La respuesta no incluye `password`.
 
-> ❓ **A definir con front:** si la respuesta del alta incluye el `token` (así el usuario queda logueado y vuelve directo a confirmar la compra) o si el front hace `POST /login` después del alta.
+**Implementación**
+
+- La contraseña se guarda hasheada con bcrypt (`adapters/security/passwordHasher.ts`, rondas en `BCRYPT_ROUNDS`). El login compara contra el hash.
+- La respuesta del alta **no incluye token**: el front hace `POST /login` con las mismas credenciales después del alta (`registerUser` en `src/store/auth.js` del front).
+
+> ⚠️ **Después de hacer pull:** correr `npm install` (dependencia nueva `bcryptjs`) y volver a correr el seed. Las bases locales (`dev.db`) creadas antes de este cambio tienen las contraseñas en texto plano y el login falla hasta reseedear.
 
 ---
 
-## 🔴 Tarea B5 — Proteger `GET /usuarios`
+## ✅ Tarea B5 — Proteger `GET /usuarios`
 
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
+| ![Alta](https://img.shields.io/badge/-ALTA-d73a49?style=flat-square) | Front #6 | `routes/usuariosRoutes.ts`, `routes/index.ts`, `daos/usuariosDao.ts`, `useCases/usuarios/getUser.ts` |
+
+**Ya está hecho.** `GET /usuarios` y `GET /usuarios/:id` llevan `adminAuth`; `POST /usuarios` (B4) sigue público.
+
+- Sin token o token inválido → `401` (`TOKEN_MISSING` / `TOKEN_INVALID`). Token de un `user` → `403` (`ADMIN_ROLE_REQUIRED`).
+- Los usuarios se devuelven sin `password` (`usuarioPublicoSelect` en `daos/usuariosDao.ts`).
+- `GET /usuarios/abc` (id no entero o ≤ 0) → `400` (`ID_INVALIDO`).
+- Id inexistente → `404` (`USER_NOT_FOUND`).
+
+**Criterios de aceptación**
+
+- [x] Sin token de admin → `401` / `403`.
+- [x] Ninguna respuesta incluye `password`.
+- [x] Id inexistente → `404`.
+
+---------:|:----------:|----------|
 | ![Alta](https://img.shields.io/badge/-ALTA-d73a49?style=flat-square) | Front #6 | `routes/usuariosRoutes.ts`, `routes/index.ts`, `daos/usuariosDao.ts` |
 
-**Objetivo:** el filtro por usuario del admin necesita la lista de usuarios, pero hoy `GET /usuarios` y `GET /usuarios/:id` son **públicos y devuelven la contraseña** de todos.
+**Objetivo:** el filtro por usuario del admin necesita la lista de usuarios, pero `GET /usuarios` y `GET /usuarios/:id` son **públicos**.
 
 **Requisitos**
 
-- Proteger `GET /usuarios` y `GET /usuarios/:id` con `adminAuth` (dejar `POST /usuarios` de B4 público).
-- Devolver los usuarios sin `password` (`select` en el DAO).
-- `GET /usuarios/:id` con un id inexistente → `404` en vez de `200` vacío.
+- Proteger `GET /usuarios` y `GET /usuarios/:id` con `adminAuth` (dejar `POST /usuarios` de B4 público). **Falta:** hoy `routes/usuariosRoutes.ts` no recibe `adminAuth`.
+- ~~Devolver los usuarios sin `password` (`select` en el DAO).~~ Hecho con `usuarioPublicoSelect` en `daos/usuariosDao.ts`.
+- ~~`GET /usuarios/:id` con un id inexistente → `404` en vez de `200` vacío.~~ Hecho en `useCases/usuarios/getUser.ts` (`USER_NOT_FOUND`).
+- Validar `:id`: hoy `GET /usuarios/abc` hace `Number('abc')` → `NaN` y probablemente termine en `500`. Debería responder `400`.
 
 **Criterios de aceptación**
 
 - [ ] Sin token de admin → `401` / `403`.
-- [ ] Ninguna respuesta incluye `password`.
+- [x] Ninguna respuesta incluye `password`.
+- [x] Id inexistente → `404`.
 
 ---
 
@@ -252,7 +275,7 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 ## 📝 Detectado de paso (fuera de las tareas del front)
 
 - `GET /admin/dashboard` devuelve **datos inventados** (`useCases/admin/getDashboardData.ts`). Podría armarse con los pedidos reales del año elegido.
-- Las contraseñas se guardan y comparan **en texto plano** (`useCases/login/login.ts`).
+- ~~Las contraseñas se guardan y comparan **en texto plano** (`useCases/login/login.ts`).~~ Resuelto con bcrypt (ver B4).
 - `pruebas.http` no tiene requests de login, pedidos ni admin.
 
 ---
