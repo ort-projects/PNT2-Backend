@@ -3,6 +3,7 @@ import type { Prisma } from '../../generated/prisma/client.js'
 export const pedidoConDetalleSelect = {
     id: true,
     date: true,
+    status: true,
     user: {
         select: {
             username: true,

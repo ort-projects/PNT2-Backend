@@ -24,6 +24,12 @@ enum Rol {
   user
 }
 
+enum EstadoPedido {
+  pendiente
+  cancelado
+  completado
+}
+
 model Usuario {
   id       Int    @id @default(autoincrement())
   username String @unique
@@ -37,6 +43,7 @@ model Usuario {
 model Pedido {
   id        Int         @id @default(autoincrement())
   date      DateTime    @default(now())
+  status    EstadoPedido @default(pendiente)
   userId    Int
   user      Usuario     @relation(fields: [userId], references: [id])
   items     PedidoItem[]

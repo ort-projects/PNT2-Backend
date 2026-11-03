@@ -18,6 +18,7 @@ export interface PedidoItem {
 export interface Pedido {
     id: number;
     date: Date;
+    status: EstadoPedido;
     total: number;
     user: {
         username: string;
@@ -26,6 +27,8 @@ export interface Pedido {
     };
     items: PedidoItem[];
 }
+
+export type EstadoPedido = "pendiente" | "cancelado" | "completado";
 
 export type Rol = "admin" | "user";
 
