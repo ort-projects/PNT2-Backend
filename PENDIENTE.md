@@ -12,8 +12,8 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 |:-:|-------|:------------------:|:---------:|:-----------:|:------:|
 | B1 | Crear pedido (`POST /pedidos`) | #1, #2 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B2 | Pedidos con detalle de productos y total | #3, #5 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
-| B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
-| B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
+| B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
@@ -46,7 +46,7 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 | `POST` | `/pedidos` | user | `{ items: [{ productId, quantity }] }` | `201` pedido creado | ✅ existe |
 | `GET` | `/pedidos` | user | — | `200` pedidos del usuario logueado, con detalle y `total` | ✅ existe |
 | `GET` | `/pedidos/all` | admin | `?username=` (B6) | `200` todos los pedidos, con detalle, `total` y usuario | ✅ existe (falta filtro, B6) |
-| `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` | ❌ falta (B4) |
+| `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` usuario creado sin contraseña | ✅ existe (B4) |
 | `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ⚠️ hoy es público (B5) |
 | `POST` | `/ofertas` | admin | `{ productId, discount, ... }` | `201` | ❌ falta (B7) |
 | `GET` | `/ofertas` | — | — | `200` ofertas vigentes | ❌ falta (B8) |
@@ -102,7 +102,7 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 ---
 
-## 🟡 Tarea B3 — Estado del pedido
+## ✅ Tarea B3 — Estado del pedido
 
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
@@ -118,37 +118,36 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 **Criterios de aceptación**
 
-- [ ] Los pedidos nuevos se crean con el estado por defecto.
-- [ ] Los pedidos existentes quedan con el estado por defecto después de la migración.
-- [ ] `GET /pedidos` y `GET /pedidos/all` devuelven `status`.
+- [x] Los pedidos nuevos se crean con el estado por defecto.
+- [x] Los pedidos existentes quedan con el estado por defecto después de la migración.
+- [x] `GET /pedidos` y `GET /pedidos/all` devuelven `status`.
 
-> ❓ **A definir:** qué estados existen (ej. `pendiente`, `enviado`, `entregado`, `cancelado`) y si el admin puede cambiarlo (eso sería un `PATCH /pedidos/:id` extra).
+> **Estados definidos:** `pendiente` (por defecto), `cancelado` y `completado`. Permitir que el admin cambie el estado requeriría un `PATCH /pedidos/:id` adicional.
 
 ---
 
-## 🔴 Tarea B4 — Registro de usuario
+## ✅ Tarea B4 — Registro de usuario
 
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
 | ![Alta](https://img.shields.io/badge/-ALTA-d73a49?style=flat-square) | Front #4 | `schemas/usuarioSchema.ts`, `useCases/usuarios/createUser.ts`, `daos/usuariosDao.ts`, `controllers/usuariosController.ts`, `routes/usuariosRoutes.ts` |
 
-**Objetivo:** que el modal de "Crear usuario" del front tenga un endpoint al que enviar el alta. Hoy `createUser.ts` y `usuarioSchema.ts` existen pero están **vacíos**, y no hay ruta `POST /usuarios`.
+**Objetivo:** que el modal de "Crear usuario" del front tenga un endpoint al que enviar el alta. `POST /usuarios` ya está implementado.
 
-**Requisitos**
+**Implementado**
 
-- Schema Zod en `usuarioSchema.ts` con las mismas reglas que `loginSchema` para `username` (email) y `password` (mín. 8), más `name` y `surname` obligatorios.
-- Ruta `POST /usuarios` con `validateBody(usuarioSchema)`.
-- Caso de uso `createUser` y método `createUser` en `UsuariosDao` (y en la interfaz de `types/daos.ts`).
-- El rol se fuerza a `user` en el backend: no se acepta `role` desde el body.
-- Si el `username` ya existe → `409` con un código claro (ej. `USERNAME_EN_USO`), para que el front muestre "email ya registrado".
-- Responder `201` con el usuario creado **sin la contraseña**.
+- Valida email, nombre, apellido y contraseña de al menos 8 caracteres con Zod.
+- Expone `POST /usuarios` sin autenticación y valida el body con `usuarioSchema`.
+- Hashea la contraseña antes de guardarla y fuerza el rol `user`.
+- Si el email ya está registrado, responde `409 USERNAME_EN_USO`.
+- Responde `201` con los datos públicos del usuario, sin `password`.
 
 **Criterios de aceptación**
 
-- [ ] Datos inválidos → `400 VALIDACION` con `details` por campo.
-- [ ] Email repetido → `409`.
-- [ ] No se puede crear un admin desde este endpoint.
-- [ ] La respuesta no incluye `password`.
+- [x] Datos inválidos → `400 VALIDACION` con `details` por campo.
+- [x] Email repetido → `409`.
+- [x] No se puede crear un admin desde este endpoint.
+- [x] La respuesta no incluye `password`.
 
 > ❓ **A definir con front:** si la respuesta del alta incluye el `token` (así el usuario queda logueado y vuelve directo a confirmar la compra) o si el front hace `POST /login` después del alta.
 
