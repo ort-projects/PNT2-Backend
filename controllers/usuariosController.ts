@@ -14,7 +14,7 @@ class UsuariosController{
         res.status(200).json(usuarios);
     }
 
-    async getUser(req: Request<{ id: string }>, res: Response){
+    async getUser(req: Request, res: Response){
         const usuario = await this.usuariosUseCases.getUser(Number(req.params.id));
         res.status(200).json(usuario);
     }
