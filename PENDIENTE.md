@@ -15,10 +15,11 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 | B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
-| B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
-| B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
-| B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
-| B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Sin asignar](https://img.shields.io/badge/-sin%20asignar-555555?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B10 | Filtro de pedidos por estado (`GET /pedidos/all?status=`) | #5 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 
 > La tarea #2 del front (mensaje de éxito, vaciar carrito, redirección) es solo de front: no necesita nada nuevo del backend.
 
@@ -46,10 +47,12 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 | `POST` | `/login` | — | `{ username, password }` | `200 { token }` | ✅ existe |
 | `POST` | `/pedidos` | user | `{ items: [{ productId, quantity }] }` | `201` pedido creado | ✅ existe |
 | `GET` | `/pedidos` | user | — | `200` pedidos del usuario logueado, con detalle y `total` | ✅ existe |
-| `GET` | `/pedidos/all` | admin | `?username=` (B6) | `200` todos los pedidos, con detalle, `total` y usuario | ✅ existe (falta filtro, B6) |
+| `GET` | `/pedidos/all` | admin | `?username=` (B6), `?status=` (B10) | `200` todos los pedidos, con detalle, `total`, `status` y usuario | ✅ existe (faltan filtros, B6 y B10) |
 | `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` usuario sin `password` (sin token) | ✅ existe |
 | `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ✅ existe (también `GET /usuarios/:id`, admin) |
 | `PATCH` | `/pedidos/:id` | admin | `{ status }` | `200` pedido actualizado | ❌ falta (B9) |
+| `GET` | `/admin/dashboard` | admin | `?selectedYear=` | `200 { anio, ventas, productos }` con pedidos reales | ✅ existe |
+| `PATCH` | `/admin/productos/:id` | admin | campos de producto (incl. `destacado`), al menos uno | `200` producto actualizado | ✅ existe |
 | `POST` | `/ofertas` | admin | `{ productId, discount, ... }` | `201` | ❌ falta (B7) |
 | `GET` | `/ofertas` | — | — | `200` ofertas vigentes | ❌ falta (B8) |
 
@@ -115,6 +118,7 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 - Estados posibles: `pendiente`, `enviado`, `entregado`, `cancelado`.
 - `GET /pedidos` y `GET /pedidos/all` devuelven `status` en cada pedido.
 - Por ahora **nadie puede cambiar el estado**: todos los pedidos quedan en `pendiente`. Cambiarlo es la tarea B9.
+- Tras el merge de `statuspedido` el enum había quedado duplicado (una versión con `completado`). Se dejó solo la de 4 estados, en `schema.prisma` y en `types/entities.ts`.
 
 **Criterios de aceptación**
 
@@ -123,25 +127,6 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 - [x] `GET /pedidos` y `GET /pedidos/all` devuelven `status`.
 
 > ⚠️ **Después de hacer pull:** correr `npx prisma migrate dev` para aplicar la migración nueva en tu `dev.db`.
-
----------:|:----------:|----------|
-| ![Media](https://img.shields.io/badge/-MEDIA-f9a825?style=flat-square) | Front #3, #5 | `prisma/schema.prisma`, migración nueva, `types/entities.ts` |
-
-**Objetivo:** las tablas del front muestran una columna **estado**, pero el modelo `Pedido` no tiene ese campo.
-
-**Requisitos**
-
-- Agregar un enum (ej. `EstadoPedido`) y el campo `status` a `Pedido`, con valor por defecto.
-- Crear la migración con `prisma migrate dev`.
-- Devolver `status` en los listados de pedidos.
-
-**Criterios de aceptación**
-
-- [x] Los pedidos nuevos se crean con el estado por defecto.
-- [x] Los pedidos existentes quedan con el estado por defecto después de la migración.
-- [x] `GET /pedidos` y `GET /pedidos/all` devuelven `status`.
-
-> **Estados definidos:** `pendiente` (por defecto), `cancelado` y `completado`. Permitir que el admin cambie el estado requeriría un `PATCH /pedidos/:id` adicional.
 
 ---
 
@@ -196,24 +181,6 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 - [x] Ninguna respuesta incluye `password`.
 - [x] Id inexistente → `404`.
 
----------:|:----------:|----------|
-| ![Alta](https://img.shields.io/badge/-ALTA-d73a49?style=flat-square) | Front #6 | `routes/usuariosRoutes.ts`, `routes/index.ts`, `daos/usuariosDao.ts` |
-
-**Objetivo:** el filtro por usuario del admin necesita la lista de usuarios, pero `GET /usuarios` y `GET /usuarios/:id` son **públicos**.
-
-**Requisitos**
-
-- Proteger `GET /usuarios` y `GET /usuarios/:id` con `adminAuth` (dejar `POST /usuarios` de B4 público). **Falta:** hoy `routes/usuariosRoutes.ts` no recibe `adminAuth`.
-- ~~Devolver los usuarios sin `password` (`select` en el DAO).~~ Hecho con `usuarioPublicoSelect` en `daos/usuariosDao.ts`.
-- ~~`GET /usuarios/:id` con un id inexistente → `404` en vez de `200` vacío.~~ Hecho en `useCases/usuarios/getUser.ts` (`USER_NOT_FOUND`).
-- Validar `:id`: hoy `GET /usuarios/abc` hace `Number('abc')` → `NaN` y probablemente termine en `500`. Debería responder `400`.
-
-**Criterios de aceptación**
-
-- [ ] Sin token de admin → `401` / `403`.
-- [x] Ninguna respuesta incluye `password`.
-- [x] Id inexistente → `404`.
-
 ---
 
 ## 🟢 Tarea B6 — Filtro de pedidos por usuario
@@ -221,6 +188,8 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
 | ![Baja](https://img.shields.io/badge/-BAJA-28a745?style=flat-square) | Front #6 | `controllers/pedidosController.ts`, `useCases/pedidos/getAll.ts`, `daos/pedidosDao.ts` |
+
+**Responsable:** Dana.
 
 **Objetivo:** que el admin pueda pedir solo los pedidos de un usuario.
 
@@ -245,6 +214,8 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
 | ![A definir](https://img.shields.io/badge/-A%20DEFINIR-lightgrey?style=flat-square) | Front #7 | `prisma/schema.prisma`, migración nueva, archivos nuevos de ofertas (schema, dao, useCases, controller, routes), `container/container.ts`, `routes/index.ts` |
+
+**Responsable:** Gonza.
 
 **Objetivo:** que el admin pueda guardar una oferta (producto + porcentaje de descuento). Hoy no existe nada de ofertas en el backend.
 
@@ -272,6 +243,8 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 |:---------:|:----------:|----------|
 | ![A definir](https://img.shields.io/badge/-A%20DEFINIR-lightgrey?style=flat-square) | Front #8 | archivos de ofertas (B7), `daos/pedidosDao.ts` |
 
+**Responsable:** Gonza.
+
 **Objetivo:** que el Home pueda mostrar las ofertas de la semana y que el descuento se respete al comprar.
 
 **Requisitos**
@@ -296,7 +269,9 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 |:---------:|:----------:|----------|
 | ![Baja](https://img.shields.io/badge/-BAJA-28a745?style=flat-square) | — | `routes/pedidosRoutes.ts`, `controllers/pedidosController.ts`, `useCases/pedidos/`, `daos/pedidosDao.ts`, schema Zod nuevo |
 
-**Objetivo:** hoy todos los pedidos quedan en `pendiente` para siempre (B3). Esta tarea agrega la forma de cambiar el estado. **No es un requisito actual:** queda anotada como mejora a futuro.
+**Responsable:** Dana.
+
+**Objetivo:** hoy todos los pedidos quedan en `pendiente` para siempre (B3). Esta tarea agrega la forma de que el admin cambie el estado.
 
 **Requisitos**
 
@@ -309,17 +284,49 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 - [ ] Estado fuera de la lista → `400 VALIDACION`.
 - [ ] Respuesta `200` con el pedido actualizado.
 
+> 💡 Las otras rutas de admin que modifican datos están bajo `/admin` (`PATCH /admin/productos/:id`). Se puede usar `PATCH /admin/pedidos/:id` por consistencia; avisar al front la ruta elegida.
+
 > ❓ **A definir:** si hay transiciones prohibidas (ej. de `entregado` o `cancelado` no se puede volver a `pendiente`).
 
 > 🔗 **Depende de:** B3.
 
 ---
 
+## 🟢 Tarea B10 — Filtro de pedidos por estado
+
+| Prioridad | Desbloquea | Archivos |
+|:---------:|:----------:|----------|
+| ![Baja](https://img.shields.io/badge/-BAJA-28a745?style=flat-square) | Front #5 | `routes/pedidosRoutes.ts`, `controllers/pedidosController.ts`, `useCases/pedidos/getAll.ts`, `daos/pedidosDao.ts`, schema Zod de query |
+
+**Responsable:** Dana.
+
+**Objetivo:** que el admin pueda listar solo los pedidos en un estado (ej. los `pendiente` para despacharlos).
+
+**Requisitos**
+
+- Aceptar `?status=` en `GET /pedidos/all`, validado con `validateQuery` y `z.enum(["pendiente", "enviado", "entregado", "cancelado"])`.
+- Filtrar en el DAO (`where: { status }`).
+- Se puede combinar con `?username=` de B6: conviene hacer las dos en el mismo schema de query.
+- Sin el parámetro, se devuelven todos como hoy.
+
+**Criterios de aceptación**
+
+- [ ] `GET /pedidos/all?status=pendiente` devuelve solo pedidos pendientes.
+- [ ] Estado fuera de la lista → `400 VALIDACION`.
+- [ ] `?status=` y `?username=` juntos aplican los dos filtros.
+- [ ] Sin pedidos en ese estado → `200 []`.
+
+> 🔗 **Depende de:** B3. Tiene más sentido una vez hecha B9 (si no, todos los pedidos están en `pendiente`).
+
+---
+
 ## 📝 Detectado de paso (fuera de las tareas del front)
 
-- `GET /admin/dashboard` devuelve **datos inventados** (`useCases/admin/getDashboardData.ts`). Podría armarse con los pedidos reales del año elegido.
+- ~~`GET /admin/dashboard` devuelve **datos inventados**.~~ Resuelto: arma las ventas con los pedidos reales del año elegido.
 - ~~Las contraseñas se guardan y comparan **en texto plano** (`useCases/login/login.ts`).~~ Resuelto con bcrypt (ver B4).
 - `pruebas.http` no tiene requests de login, pedidos ni admin.
+- Las migraciones `20261103200628_estado_pedido` y `20261103224347_estado_pedido` son idénticas (quedaron del merge). No rompen nada, pero la segunda vuelve a dejar todos los pedidos en `pendiente`. No borrarlas si ya se aplicaron en las bases locales.
+- El seed ahora carga 18 productos de moda (categorías `camisas`, `vestidos`, `calzado`, `carteras`, `anteojos`, `accesorios`). ⚠️ **Después de hacer pull:** volver a correr el seed. Para tener ventas con todos los productos, hay que partir de una base vacía, porque el seed no crea ventas si ya hay pedidos.
 
 ---
 
