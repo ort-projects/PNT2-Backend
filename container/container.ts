@@ -35,7 +35,7 @@ function buildContainer() {
     const productosUseCases = makeProductosUseCases(productosDao);
     const usuariosUseCases = makeUsuariosUseCases(usuariosDao, passwordHasher);
     const pedidosUseCases = makePedidosUseCases({ pedidosDao, usuariosDao, productosDao });
-    const adminUseCases = makeAdminUseCases();
+    const adminUseCases = makeAdminUseCases({ pedidosDao, productosDao });
 
     const loginController = new LoginController(loginUseCases);
     const productosController = new ProductosController(productosUseCases);

@@ -1,11 +1,12 @@
 import type { Pedido, PedidoItem } from "../generated/prisma/client.js";
 import type { PedidoConDetalle } from "../daos/queries/pedidoConDetalle.js";
-import type { Producto, Usuario, UsuarioPublico } from "./entities.js";
+import type { Producto, ProductoPatch, Usuario, UsuarioPublico } from "./entities.js";
 
 export interface ProductosDao {
     getProduct(id: number): Promise<Producto | undefined>;
     getProducts(): Promise<Producto[]>;
     getProductsByIds(ids: number[]): Promise<Producto[]>;
+    updateProduct(id: number, changes: ProductoPatch): Promise<Producto>;
 }
 
 export interface UsuariosDao {
