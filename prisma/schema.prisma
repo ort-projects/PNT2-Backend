@@ -25,12 +25,6 @@ enum Rol {
   user
 }
 
-enum EstadoPedido {
-  pendiente
-  cancelado
-  completado
-}
-
 model Usuario {
   id       Int    @id @default(autoincrement())
   username String @unique

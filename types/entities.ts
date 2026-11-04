@@ -33,8 +33,6 @@ export interface Pedido {
     items: PedidoItem[];
 }
 
-export type EstadoPedido = "pendiente" | "cancelado" | "completado";
-
 export type Rol = "admin" | "user";
 
 export interface Usuario {

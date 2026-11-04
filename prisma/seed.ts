@@ -6,94 +6,166 @@ const passwordHasher = createPasswordHasher({ rounds: BCRYPT_ROUNDS });
 
 const productos = [
   {
-    title: "Essence Mascara Lash Princess",
+    title: "Camisa a cuadros azul y negra",
     description:
-      "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.",
-    category: "beauty",
-    price: 9.99,
+      "Camisa de algodón a cuadros en tonos azul y negro, de corte regular y manga larga. Ideal para un look casual de todos los días.",
+    category: "camisas",
+    price: 29.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/thumbnail.webp",
   },
   {
-    title: "Eyeshadow Palette with Mirror",
+    title: "Camisa leñadora",
     description:
-      "The Eyeshadow Palette with Mirror offers a versatile range of eyeshadow shades for creating stunning eye looks. With a built-in mirror, it's convenient for on-the-go makeup application.",
-    category: "beauty",
+      "Camisa leñadora de franela suave, abrigada y cómoda. Combina perfecto con jeans y zapatillas para los días frescos.",
+    category: "camisas",
+    price: 34.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/thumbnail.webp",
+  },
+  {
+    title: "Camisa de manga corta",
+    description:
+      "Camisa liviana de manga corta, fresca y fácil de combinar. Pensada para el verano y salidas informales.",
+    category: "camisas",
     price: 19.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/thumbnail.webp",
   },
   {
-    title: "Powder Canister",
+    title: "Vestido largo negro",
     description:
-      "The Powder Canister is a finely milled setting powder designed to set makeup and control shine. With a lightweight and translucent formula, it provides a smooth and matte finish.",
-    category: "beauty",
-    price: 14.99,
-    thumbnail:
-      "https://cdn.dummyjson.com/product-images/beauty/powder-canister/thumbnail.webp",
-  },
-  {
-    title: "Calvin Klein CK One",
-    description:
-      "CK One by Calvin Klein is a classic unisex fragrance, known for its fresh and clean scent. It's a versatile fragrance suitable for everyday wear.",
-    category: "fragrances",
-    price: 49.99,
-    thumbnail:
-      "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp",
-  },
-  {
-    title: "Chanel Coco Noir Eau De",
-    description:
-      "Coco Noir by Chanel is an elegant and mysterious fragrance, featuring notes of grapefruit, rose, and sandalwood. Perfect for evening occasions.",
-    category: "fragrances",
+      "Vestido largo negro de silueta entallada y caída elegante. Una opción clásica para fiestas y eventos de noche.",
+    category: "vestidos",
     price: 129.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/thumbnail.webp",
   },
   {
-    title: "Dior J'adore",
+    title: "Vestido verde estampado",
     description:
-      "J'adore by Dior is a luxurious and floral fragrance, known for its blend of ylang-ylang, rose, and jasmine. It embodies femininity and sophistication.",
-    category: "fragrances",
+      "Vestido estampado en tono verde, de tela liviana y largo midi. Fresco, cómodo y femenino para el día.",
+    category: "vestidos",
+    price: 49.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/womens-dresses/dress-pea/thumbnail.webp",
+  },
+  {
+    title: "Vestido azul corto",
+    description:
+      "Vestido corto azul de corte suelto, ideal para el verano. Fácil de llevar con sandalias o zapatillas.",
+    category: "vestidos",
+    price: 29.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/tops/blue-frock/thumbnail.webp",
+  },
+  {
+    title: "Vestido gris",
+    description:
+      "Vestido gris de líneas simples y tela suave. Un básico versátil que se adapta tanto a la oficina como a una salida.",
+    category: "vestidos",
+    price: 34.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/tops/gray-dress/thumbnail.webp",
+  },
+  {
+    title: "Zapatillas urbanas retro",
+    description:
+      "Zapatillas de estilo retro con capellada combinada y suela de goma. Comodidad y onda urbana para todo el día.",
+    category: "calzado",
     price: 89.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/thumbnail.webp",
   },
   {
-    title: "Annibale Colombo Bed",
+    title: "Zapatillas blancas y rojas",
     description:
-      "The Annibale Colombo Bed is a luxurious and elegant bed frame, crafted with high-quality materials for a comfortable and stylish bedroom.",
-    category: "furniture",
-    price: 1899.99,
+      "Zapatillas deportivas en blanco con detalles en rojo, livianas y con buena amortiguación. Perfectas para entrenar o pasear.",
+    category: "calzado",
+    price: 119.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/thumbnail.webp",
   },
   {
-    title: "Annibale Colombo Sofa",
+    title: "Zapatos de taco",
     description:
-      "The Annibale Colombo Sofa is a sophisticated and comfortable seating option, featuring exquisite design and premium upholstery for your living room.",
-    category: "furniture",
-    price: 2499.99,
+      "Zapatos de taco alto con punta fina y terminación brillante. El complemento ideal para un look formal.",
+    category: "calzado",
+    price: 79.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/womens-shoes/calvin-klein-heel-shoes/thumbnail.webp",
   },
   {
-    title: "Apple",
+    title: "Zapatos dorados",
     description:
-      "Fresh and crisp apples, perfect for snacking or incorporating into various recipes.",
-    category: "groceries",
-    price: 1.99,
+      "Zapatos dorados de diseño llamativo, cómodos y fáciles de combinar con vestidos de fiesta.",
+    category: "calzado",
+    price: 49.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/womens-shoes/golden-shoes-woman/thumbnail.webp",
   },
   {
-    title: "Beef Steak",
+    title: "Cartera azul",
     description:
-      "High-quality beef steak, great for grilling or cooking to your preferred level of doneness.",
-    category: "groceries",
-    price: 12.99,
+      "Cartera de mano color azul con cierre y manijas firmes. Espaciosa y práctica para el día a día.",
+    category: "carteras",
+    price: 49.99,
     thumbnail:
-      "https://cdn.dummyjson.com/product-images/groceries/beef-steak/thumbnail.webp",
+      "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/thumbnail.webp",
+  },
+  {
+    title: "Bolso de cuero",
+    description:
+      "Bolso de cuero de gran capacidad, con compartimentos internos y correa ajustable. Elegante y resistente.",
+    category: "carteras",
+    price: 129.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/womens-bags/heshe-women's-leather-bag/thumbnail.webp",
+  },
+  {
+    title: "Mochila de cuero sintético blanca",
+    description:
+      "Mochila de cuero sintético blanca, compacta y liviana. Ideal para la ciudad, con estilo minimalista.",
+    category: "carteras",
+    price: 39.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/womens-bags/white-faux-leather-backpack/thumbnail.webp",
+  },
+  {
+    title: "Anteojos de sol negros",
+    description:
+      "Anteojos de sol con marco negro y lentes oscuras con protección UV. Un clásico que nunca pasa de moda.",
+    category: "anteojos",
+    price: 29.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/thumbnail.webp",
+  },
+  {
+    title: "Anteojos de sol clásicos",
+    description:
+      "Anteojos de sol de diseño clásico, livianos y cómodos. Protegen del sol con mucho estilo.",
+    category: "anteojos",
+    price: 24.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/sunglasses/classic-sun-glasses/thumbnail.webp",
+  },
+  {
+    title: "Aros de cristal verde",
+    description:
+      "Aros con cristales verdes que aportan brillo y color. Perfectos para destacar un look de noche.",
+    category: "accesorios",
+    price: 29.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/thumbnail.webp",
+  },
+  {
+    title: "Reloj con malla de cuero marrón",
+    description:
+      "Reloj analógico con malla de cuero marrón y esfera clásica. Un accesorio elegante para uso diario.",
+    category: "accesorios",
+    price: 89.99,
+    thumbnail:
+      "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/thumbnail.webp",
   },
 ];
 
