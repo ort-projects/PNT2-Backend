@@ -7,3 +7,25 @@ GET http://localhost:3000/productos/1
 ### Obtener usuarios (requiere token de admin, ver POST /login)
 GET http://localhost:3000/usuarios
 Authorization: Bearer <token>
+### Iniciar sesión admin
+# @name adminLogin
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "username": "dana@mehle.com",
+  "password": "12345678"
+}
+
+### Listar pedidos sin filtro
+GET http://localhost:3000/pedidos/all
+Authorization: Bearer {{adminLogin.response.body.token}}
+
+### Filtrar pedidos por usuario
+GET http://localhost:3000/pedidos/all?username=gabriel@teruel.com
+Authorization: Bearer {{adminLogin.response.body.token}}
+
+### Filtrar usuario inexistente
+GET http://localhost:3000/pedidos/all?username=nadie%40ejemplo.com
+Authorization: Bearer {{adminLogin.response.body.token}}
