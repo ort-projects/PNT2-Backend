@@ -14,7 +14,7 @@ export default function makePedidosUseCases(dependencies: PedidosDependencies) {
     return {
         createOrder: (username: string, data: OrderInput) => createOrder(username, data, dependencies.pedidosDao, dependencies.usuariosDao, dependencies.productosDao),
         getOrdersByUsername: (username: string) => getOrdersByUsername(username, dependencies.pedidosDao),
-        getAllOrders: () => getAll(dependencies.pedidosDao),
+        getAllOrders: (username?: string) => getAll(dependencies.pedidosDao, username),
     }
 }
 

@@ -15,7 +15,7 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 | B3 | Estado del pedido | #3, #5 | ![Media](https://img.shields.io/badge/prioridad-MEDIA-f9a825?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B4 | Registro de usuario (`POST /usuarios`) | #4 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B5 | Proteger `GET /usuarios` y no devolver la contraseña | #6 | ![Alta](https://img.shields.io/badge/prioridad-ALTA-d73a49?style=flat-square) | ![Gabriel](https://img.shields.io/badge/-Gabriel-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
-| B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
@@ -47,7 +47,7 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 | `POST` | `/login` | — | `{ username, password }` | `200 { token }` | ✅ existe |
 | `POST` | `/pedidos` | user | `{ items: [{ productId, quantity }] }` | `201` pedido creado | ✅ existe |
 | `GET` | `/pedidos` | user | — | `200` pedidos del usuario logueado, con detalle y `total` | ✅ existe |
-| `GET` | `/pedidos/all` | admin | `?username=` (B6), `?status=` (B10) | `200` todos los pedidos, con detalle, `total`, `status` y usuario | ✅ existe (faltan filtros, B6 y B10) |
+| `GET` | `/pedidos/all` | admin | `?username=` (B6), `?status=` (B10) | `200` pedidos, con detalle, `total`, `status` y usuario | ✅ existe (falta filtro B10) |
 | `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` usuario sin `password` (sin token) | ✅ existe |
 | `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ✅ existe (también `GET /usuarios/:id`, admin) |
 | `PATCH` | `/pedidos/:id` | admin | `{ status }` | `200` pedido actualizado | ❌ falta (B9) |
@@ -200,8 +200,8 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 **Criterios de aceptación**
 
-- [ ] `GET /pedidos/all?username=x` devuelve solo los pedidos de `x`.
-- [ ] Usuario sin pedidos o inexistente → `200 []`.
+- [x] `GET /pedidos/all?username=x` devuelve solo los pedidos de `x`.
+- [x] Usuario sin pedidos o inexistente → `200 []`.
 
 > 💡 Si la lista de pedidos es chica, el front puede filtrar del lado del cliente con los datos de B2 y esta tarea queda opcional.
 
