@@ -1,6 +1,6 @@
 # 📋 Tareas pendientes — Backend
 
-Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIENTE.md` del repo del front (`pnt2-integrador`) (flujo de compra, pedidos y ofertas).
+Pendientes del backend para completar las tareas del repo del front (`pnt2-integrador`) y documentar la API.
 
 **Equipo:** Dana · Gonza · Gabriel
 
@@ -20,6 +20,7 @@ Lo que falta en el backend para que el front pueda cerrar las tareas de `PENDIEN
 | B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B10 | Filtro de pedidos por estado (`GET /pedidos/all?status=`) | #5 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B11 | Documentar la API con Swagger (`/api-docs`) | — | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![A definir](https://img.shields.io/badge/-a%20definir-lightgrey?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 
 > La tarea #2 del front (mensaje de éxito, vaciar carrito, redirección) es solo de front: no necesita nada nuevo del backend.
 
@@ -317,6 +318,30 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 - [ ] Sin pedidos en ese estado → `200 []`.
 
 > 🔗 **Depende de:** B3. Tiene más sentido una vez hecha B9 (si no, todos los pedidos están en `pendiente`).
+
+---
+
+## ⚪ Tarea B11 — Documentación de API con Swagger
+
+| Prioridad | Desbloquea | Archivos |
+|:---------:|:----------:|----------|
+| ![A definir](https://img.shields.io/badge/-A%20DEFINIR-lightgrey?style=flat-square) | — | especificación OpenAPI, configuración de Swagger, rutas |
+
+**Responsable:** A definir.
+
+**Objetivo:** documentar la API del backend y permitir explorar sus endpoints desde Swagger UI.
+
+**Requisitos**
+
+- Definir la especificación OpenAPI para los endpoints existentes, incluyendo parámetros, cuerpos, respuestas y errores.
+- Documentar la autenticación Bearer JWT para las rutas protegidas.
+- Publicar Swagger UI en `GET /api-docs`.
+
+**Criterios de aceptación**
+
+- [ ] `GET /api-docs` muestra la documentación interactiva.
+- [ ] Los endpoints actuales incluyen sus parámetros, esquemas de entrada, respuestas y requisitos de autenticación.
+- [ ] Las rutas protegidas se pueden probar desde Swagger UI usando un token Bearer.
 
 ---
 
