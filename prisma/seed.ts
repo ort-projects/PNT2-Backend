@@ -169,6 +169,10 @@ const productos = [
   },
 ];
 
+// Productos con mayor movimiento en el año actual; los de menor venta quedan sin destacar
+// para que sigan apareciendo como candidatos de promoción en el dashboard.
+const idsProductosDestacados = new Set([2, 3, 6, 9, 11, 12, 14, 15, 17, 18]);
+
 const usuarios = [
   {
     username: "gonzalo@cabo.com",
@@ -249,11 +253,15 @@ async function seedVentas() {
 async function main() {
   for (const [index, producto] of productos.entries()) {
     const id = index + 1;
+    const productoConDestacado = {
+      ...producto,
+      destacado: idsProductosDestacados.has(id),
+    };
 
     await prisma.producto.upsert({
       where: { id },
-      update: producto,
-      create: { id, ...producto },
+      update: productoConDestacado,
+      create: { id, ...productoConDestacado },
     });
   }
 
