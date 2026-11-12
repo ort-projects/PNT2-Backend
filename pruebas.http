@@ -9,7 +9,6 @@ GET http://localhost:3000/usuarios
 Authorization: Bearer <token>
 ### Iniciar sesión admin
 # @name adminLogin
-
 POST http://localhost:3000/login
 Content-Type: application/json
 
@@ -29,3 +28,34 @@ Authorization: Bearer {{adminLogin.response.body.token}}
 ### Filtrar usuario inexistente
 GET http://localhost:3000/pedidos/all?username=nadie%40ejemplo.com
 Authorization: Bearer {{adminLogin.response.body.token}}
+
+### B9 - Cambiar el estado de un pedido existente (espera 200)
+# Ejecutar "Iniciar sesión admin" primero. Cambiar 1 si no existe en la base local.
+@pedidoId = 1
+
+# @name cambiarEstadoPedido
+PATCH http://localhost:3000/pedidos/{{pedidoId}}
+Authorization: Bearer {{adminLogin.response.body.token}}
+Content-Type: application/json
+
+{
+  "status": "enviado"
+}
+
+### B9 - Rechazar un estado inválido (espera 400)
+PATCH http://localhost:3000/pedidos/{{pedidoId}}
+Authorization: Bearer {{adminLogin.response.body.token}}
+Content-Type: application/json
+
+{
+  "status": "en preparacion"
+}
+
+### B9 - Devolver 404 para un pedido inexistente (espera 404)
+PATCH http://localhost:3000/pedidos/999999999
+Authorization: Bearer {{adminLogin.response.body.token}}
+Content-Type: application/json
+
+{
+  "status": "entregado"
+}
