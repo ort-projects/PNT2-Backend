@@ -24,8 +24,12 @@ function validateBody(schema: ZodType){
     return validate(schema, "body", "body");
 }
 
+function validateParams(schema: ZodType){
+    return validate(schema, "params", "validatedParams");
+}
+
 function validateQuery(schema: ZodType, propName: string){
     return validate(schema, "query", propName);
 }
 
-export { validateBody, validateQuery }
+export { validateBody, validateParams, validateQuery }
