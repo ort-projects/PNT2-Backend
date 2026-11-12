@@ -1,6 +1,6 @@
 import type { Pedido, PedidoItem } from "../generated/prisma/client.js";
 import type { PedidoConDetalle } from "../daos/queries/pedidoConDetalle.js";
-import type { Producto, ProductoPatch, Usuario, UsuarioPublico } from "./entities.js";
+import type { EstadoPedido, Producto, ProductoPatch, Usuario, UsuarioPublico } from "./entities.js";
 
 export interface ProductosDao {
     getProduct(id: number): Promise<Producto | undefined>;
@@ -26,4 +26,5 @@ export interface PedidosDao {
     save(data: NuevoPedido): Promise<Pedido>;
     getOrdersByUsername(username: string): Promise<PedidoConDetalle[]>;
     getAllOrders(): Promise<PedidoConDetalle[]>;
+    updateStatus(id: number, status: EstadoPedido): Promise<PedidoConDetalle | undefined>;
 }

@@ -18,7 +18,7 @@ Pendientes del backend para completar las tareas del repo del front (`pnt2-integ
 | B6 | Filtro de pedidos por usuario (`GET /pedidos/all?username=`) | #6 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
-| B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B10 | Filtro de pedidos por estado (`GET /pedidos/all?status=`) | #5 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B11 | Documentar la API con Swagger (`/api-docs`) | — | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![A definir](https://img.shields.io/badge/-a%20definir-lightgrey?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 
@@ -51,7 +51,7 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 | `GET` | `/pedidos/all` | admin | `?username=` (B6), `?status=` (B10) | `200` pedidos, con detalle, `total`, `status` y usuario | ✅ existe (falta filtro B10) |
 | `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` usuario sin `password` (sin token) | ✅ existe |
 | `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ✅ existe (también `GET /usuarios/:id`, admin) |
-| `PATCH` | `/pedidos/:id` | admin | `{ status }` | `200` pedido actualizado | ❌ falta (B9) |
+| `PATCH` | `/pedidos/:id` | admin | `{ status }` | `200` pedido actualizado | ✅ existe (B9) |
 | `GET` | `/admin/dashboard` | admin | `?selectedYear=` | `200 { anio, ventas, productos }` con pedidos reales | ✅ existe |
 | `PATCH` | `/admin/productos/:id` | admin | campos de producto (incl. `destacado`), al menos uno | `200` producto actualizado | ✅ existe |
 | `POST` | `/ofertas` | admin | `{ productId, discount, ... }` | `201` | ❌ falta (B7) |
@@ -272,22 +272,20 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 **Responsable:** Dana.
 
-**Objetivo:** hoy todos los pedidos quedan en `pendiente` para siempre (B3). Esta tarea agrega la forma de que el admin cambie el estado.
+**Ya está hecho.** `PATCH /pedidos/:id` requiere `adminAuth`, valida el ID y `{ status }` con Zod, y devuelve el pedido actualizado con el mismo formato de detalle de las rutas de consulta.
 
-**Requisitos**
+**Implementado**
 
-- `PATCH /pedidos/:id` con `adminAuth` y body `{ status }`, validado con Zod (`z.enum(["pendiente", "enviado", "entregado", "cancelado"])`).
-- Pedido inexistente → `404`. Id inválido → `400`.
+- Estados permitidos: `pendiente`, `enviado`, `entregado` y `cancelado`.
+- Pedido inexistente → `404` (`PEDIDO_NO_ENCONTRADO`). ID o estado inválido → `400 VALIDACION`.
+- Se permiten todas las transiciones entre estados válidos.
 
 **Criterios de aceptación**
 
-- [ ] Solo un admin puede cambiar el estado.
-- [ ] Estado fuera de la lista → `400 VALIDACION`.
-- [ ] Respuesta `200` con el pedido actualizado.
-
-> 💡 Las otras rutas de admin que modifican datos están bajo `/admin` (`PATCH /admin/productos/:id`). Se puede usar `PATCH /admin/pedidos/:id` por consistencia; avisar al front la ruta elegida.
-
-> ❓ **A definir:** si hay transiciones prohibidas (ej. de `entregado` o `cancelado` no se puede volver a `pendiente`).
+- [x] Solo un admin puede cambiar el estado.
+- [x] Estado fuera de la lista → `400 VALIDACION`.
+- [x] Pedido inexistente → `404`; ID inválido → `400`.
+- [x] Respuesta `200` con el pedido actualizado.
 
 > 🔗 **Depende de:** B3.
 

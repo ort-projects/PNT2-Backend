@@ -1,4 +1,5 @@
 import type { Pedido, PrismaClient } from '../generated/prisma/client.js'
+import type { EstadoPedido } from '../types/entities.js'
 import type { NuevoPedido, PedidosDao as IPedidosDao } from '../types/daos.js'
 import { pedidoConDetalleSelect, type PedidoConDetalle } from './queries/pedidoConDetalle.js'
 
@@ -26,6 +27,20 @@ class PedidosDao implements IPedidosDao {
         return this.prisma.pedido.findMany({
             select: pedidoConDetalleSelect,
             orderBy: { date: 'desc' },
+        })
+    }
+
+    async updateStatus(id: number, status: EstadoPedido): Promise<PedidoConDetalle | undefined> {
+        const pedido = await this.prisma.pedido.findUnique({
+            where: { id },
+            select: { id: true },
+        })
+        if (!pedido) return undefined
+
+        return this.prisma.pedido.update({
+            where: { id },
+            data: { status },
+            select: pedidoConDetalleSelect,
         })
     }
 }

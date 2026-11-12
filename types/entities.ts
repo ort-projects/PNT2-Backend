@@ -1,3 +1,7 @@
+import type { EstadoPedido } from '../schemas/pedidoPatchSchema.js'
+
+export type { EstadoPedido }
+
 export interface Producto {
     id: number;
     title: string;
@@ -17,8 +21,6 @@ export interface PedidoItem {
     price: number;
     quantity: number;
 }
-
-export type EstadoPedido = "pendiente" | "enviado" | "entregado" | "cancelado";
 
 export interface Pedido {
     id: number;
