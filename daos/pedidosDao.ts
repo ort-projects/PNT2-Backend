@@ -1,6 +1,6 @@
 import type { Pedido, PrismaClient } from '../generated/prisma/client.js'
 import type { EstadoPedido } from '../types/entities.js'
-import type { NuevoPedido, PedidosDao as IPedidosDao } from '../types/daos.js'
+import type { NuevoPedido, PedidosDao as IPedidosDao, PedidosFiltro } from '../types/daos.js'
 import { pedidoConDetalleSelect, type PedidoConDetalle } from './queries/pedidoConDetalle.js'
 
 class PedidosDao implements IPedidosDao {
@@ -23,8 +23,14 @@ class PedidosDao implements IPedidosDao {
         })
     }
 
-    async getAllOrders(): Promise<PedidoConDetalle[]> {
+    async getAllOrders(filters?: PedidosFiltro): Promise<PedidoConDetalle[]> {
+        const where = {
+            ...(filters?.username ? { user: { username: filters.username } } : {}),
+            ...(filters?.status ? { status: filters.status } : {}),
+        }
+
         return this.prisma.pedido.findMany({
+            where,
             select: pedidoConDetalleSelect,
             orderBy: { date: 'desc' },
         })

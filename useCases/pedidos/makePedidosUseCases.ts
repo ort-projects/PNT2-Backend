@@ -1,4 +1,4 @@
-import type { PedidosDao, ProductosDao, UsuariosDao } from '../../types/daos.js'
+import type { PedidosDao, PedidosFiltro, ProductosDao, UsuariosDao } from '../../types/daos.js'
 import type { OrderInput } from '../../schemas/orderSchema.js'
 import type { EstadoPedido } from '../../types/entities.js'
 import createOrder from './createOrder.js'
@@ -16,7 +16,7 @@ export default function makePedidosUseCases(dependencies: PedidosDependencies) {
     return {
         createOrder: (username: string, data: OrderInput) => createOrder(username, data, dependencies.pedidosDao, dependencies.usuariosDao, dependencies.productosDao),
         getOrdersByUsername: (username: string) => getOrdersByUsername(username, dependencies.pedidosDao),
-        getAllOrders: (username?: string) => getAll(dependencies.pedidosDao, username),
+        getAllOrders: (filters?: PedidosFiltro) => getAll(dependencies.pedidosDao, filters),
         updateOrderStatus: (id: number, status: EstadoPedido) => updateOrderStatus(id, status, dependencies.pedidosDao),
     }
 }
