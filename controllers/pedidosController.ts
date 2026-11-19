@@ -18,8 +18,8 @@ class PedidosController {
     }
 
     async getAllOrders(req: Request, res: Response) {
-        const { username } = (req as Request & { validatedQuery: PedidosQueryInput }).validatedQuery
-        const orders = await this.pedidosUseCases.getAllOrders(username)
+        const filters = (req as Request & { validatedQuery: PedidosQueryInput }).validatedQuery
+        const orders = await this.pedidosUseCases.getAllOrders(filters)
         res.status(200).json(orders)
     }
 

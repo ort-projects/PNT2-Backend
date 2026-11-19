@@ -22,9 +22,14 @@ export interface NuevoPedido {
     items: Pick<PedidoItem, 'productId' | 'price' | 'quantity'>[];
 }
 
+export interface PedidosFiltro {
+    username?: string;
+    status?: EstadoPedido;
+}
+
 export interface PedidosDao {
     save(data: NuevoPedido): Promise<Pedido>;
     getOrdersByUsername(username: string): Promise<PedidoConDetalle[]>;
-    getAllOrders(): Promise<PedidoConDetalle[]>;
+    getAllOrders(filters?: PedidosFiltro): Promise<PedidoConDetalle[]>;
     updateStatus(id: number, status: EstadoPedido): Promise<PedidoConDetalle | undefined>;
 }

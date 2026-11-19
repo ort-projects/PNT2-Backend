@@ -25,6 +25,14 @@ Authorization: Bearer {{adminLogin.response.body.token}}
 GET http://localhost:3000/pedidos/all?username=gabriel@teruel.com
 Authorization: Bearer {{adminLogin.response.body.token}}
 
+### B10 - Filtrar pedidos por estado (espera 200 y todos con status pendiente)
+GET http://localhost:3000/pedidos/all?status=pendiente
+Authorization: Bearer {{adminLogin.response.body.token}}
+
+### B10 - Combinar filtro de usuario y estado (espera 200 y solo coincidencias)
+GET http://localhost:3000/pedidos/all?username=gabriel%40teruel.com&status=pendiente
+Authorization: Bearer {{adminLogin.response.body.token}}
+
 ### Filtrar usuario inexistente
 GET http://localhost:3000/pedidos/all?username=nadie%40ejemplo.com
 Authorization: Bearer {{adminLogin.response.body.token}}

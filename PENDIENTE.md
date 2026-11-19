@@ -19,7 +19,7 @@ Pendientes del backend para completar las tareas del repo del front (`pnt2-integ
 | B7 | Ofertas semanales: modelo y alta (admin) | #7 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B8 | Ofertas vigentes (`GET /ofertas`) y descuento al comprar | #8 | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![Gonza](https://img.shields.io/badge/-Gonza-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 | B9 | Cambiar el estado de un pedido (admin) | — | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
-| B10 | Filtro de pedidos por estado (`GET /pedidos/all?status=`) | #5 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
+| B10 | Filtro de pedidos por estado (`GET /pedidos/all?status=`) | #5 | ![Baja](https://img.shields.io/badge/prioridad-BAJA-28a745?style=flat-square) | ![Dana](https://img.shields.io/badge/-Dana-0366d6?style=flat-square) | ![Hecho](https://img.shields.io/badge/-hecho-28a745?style=flat-square) |
 | B11 | Documentar la API con Swagger (`/api-docs`) | — | ![A definir](https://img.shields.io/badge/prioridad-A%20DEFINIR-lightgrey?style=flat-square) | ![A definir](https://img.shields.io/badge/-a%20definir-lightgrey?style=flat-square) | ![Pendiente](https://img.shields.io/badge/-pendiente-lightgrey?style=flat-square) |
 
 > La tarea #2 del front (mensaje de éxito, vaciar carrito, redirección) es solo de front: no necesita nada nuevo del backend.
@@ -48,7 +48,7 @@ Las rutas que el front tiene marcadas como "confirmar con backend":
 | `POST` | `/login` | — | `{ username, password }` | `200 { token }` | ✅ existe |
 | `POST` | `/pedidos` | user | `{ items: [{ productId, quantity }] }` | `201` pedido creado | ✅ existe |
 | `GET` | `/pedidos` | user | — | `200` pedidos del usuario logueado, con detalle y `total` | ✅ existe |
-| `GET` | `/pedidos/all` | admin | `?username=` (B6), `?status=` (B10) | `200` pedidos, con detalle, `total`, `status` y usuario | ✅ existe (falta filtro B10) |
+| `GET` | `/pedidos/all` | admin | `?username=` (B6), `?status=` (B10) | `200` pedidos, con detalle, `total`, `status` y usuario | ✅ existe |
 | `POST` | `/usuarios` | — | `{ username, name, surname, password }` | `201` usuario sin `password` (sin token) | ✅ existe |
 | `GET` | `/usuarios` | admin | — | `200` usuarios sin `password` | ✅ existe (también `GET /usuarios/:id`, admin) |
 | `PATCH` | `/pedidos/:id` | admin | `{ status }` | `200` pedido actualizado | ✅ existe (B9) |
@@ -291,7 +291,7 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 ---
 
-## 🟢 Tarea B10 — Filtro de pedidos por estado
+## ✅ Tarea B10 — Filtro de pedidos por estado
 
 | Prioridad | Desbloquea | Archivos |
 |:---------:|:----------:|----------|
@@ -300,6 +300,8 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 **Responsable:** Dana.
 
 **Objetivo:** que el admin pueda listar solo los pedidos en un estado (ej. los `pendiente` para despacharlos).
+
+**Ya está hecho.** `GET /pedidos/all` valida `username` y `status` con el schema de query existente y combina ambos filtros en el DAO. Los estados permitidos reutilizan el enum Zod definido para actualizar pedidos. Sin filtros devuelve todos los pedidos; si no hay coincidencias, devuelve `200 []`.
 
 **Requisitos**
 
@@ -310,10 +312,10 @@ El payload que manda `Cart.vue` (`{ items: [{ productId, quantity }] }`) ya coin
 
 **Criterios de aceptación**
 
-- [ ] `GET /pedidos/all?status=pendiente` devuelve solo pedidos pendientes.
-- [ ] Estado fuera de la lista → `400 VALIDACION`.
-- [ ] `?status=` y `?username=` juntos aplican los dos filtros.
-- [ ] Sin pedidos en ese estado → `200 []`.
+- [x] `GET /pedidos/all?status=pendiente` devuelve solo pedidos pendientes.
+- [x] Estado fuera de la lista → `400 VALIDACION`.
+- [x] `?status=` y `?username=` juntos aplican los dos filtros.
+- [x] Sin pedidos en ese estado → `200 []`.
 
 > 🔗 **Depende de:** B3. Tiene más sentido una vez hecha B9 (si no, todos los pedidos están en `pendiente`).
 
