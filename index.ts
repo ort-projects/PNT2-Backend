@@ -4,12 +4,14 @@ import errorHandler from "./middlewares/errorHandler.js";
 import buildContainer from "./container/container.js";
 import cors from "cors"
 import { PORT } from "./config/config.js";
+import docsRouter from "./routes/docsRoutes.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use(docsRouter);
 
 const container = buildContainer();
 app.use(container.router);
