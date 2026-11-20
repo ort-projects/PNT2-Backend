@@ -19,6 +19,9 @@ import prisma from "../connection/prisma.js";
 import type { TokenService } from "../types/services.js";
 import createPasswordHasher from "../adapters/security/passwordHasher.js";
 import { BCRYPT_ROUNDS } from '../config/config.js'
+import CarritoDao from "../daos/carritoDao.js";
+import CarritoController from "../controllers/carritoController.js";
+import makeCarritoUseCases from "../useCases/carrito/makeCarritoUseCases.js";
 
 function buildContainer() {
     const tokenService: TokenService = {
@@ -30,17 +33,20 @@ function buildContainer() {
     const productosDao = new ProductosDao(prisma);
     const usuariosDao = new UsuariosDao(prisma);
     const pedidosDao = new PedidosDao(prisma);
+    const carritoDao = new CarritoDao(prisma);
 
     const loginUseCases = makeLoginUseCases({ userRepository: usuariosDao, tokenService, passwordHasher });
     const productosUseCases = makeProductosUseCases(productosDao);
     const usuariosUseCases = makeUsuariosUseCases(usuariosDao, passwordHasher);
-    const pedidosUseCases = makePedidosUseCases({ pedidosDao, usuariosDao, productosDao });
+    const pedidosUseCases = makePedidosUseCases({ pedidosDao, usuariosDao, productosDao, carritoDao });
+    const carritoUseCases = makeCarritoUseCases(carritoDao, usuariosDao, productosDao);
     const adminUseCases = makeAdminUseCases({ pedidosDao, productosDao });
 
     const loginController = new LoginController(loginUseCases);
     const productosController = new ProductosController(productosUseCases);
     const usuariosController = new UsuariosController(usuariosUseCases);
     const pedidosController = new PedidosController(pedidosUseCases);
+    const carritoController = new CarritoController(carritoUseCases);
     const adminController = new AdminController(adminUseCases);
     const adminAuth = makeAdminAuth(tokenService);
     const userAuth = makeUserAuth(tokenService);
@@ -51,6 +57,7 @@ function buildContainer() {
         usuariosController,
         adminController,
         pedidosController,
+        carritoController,
         adminAuth,
         userAuth,
     });

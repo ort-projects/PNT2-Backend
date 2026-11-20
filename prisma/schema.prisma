@@ -16,6 +16,7 @@ model Producto {
   thumbnail   String
   destacado   Boolean @default(false)
   orderItems  PedidoItem[]
+  cartItems   CarritoItem[]
 
   @@map("productos")
 }
@@ -33,6 +34,7 @@ model Usuario {
   password String
   role     Rol
   orders   Pedido[]
+  cart     Carrito?
 }
 
 enum EstadoPedido {
@@ -59,4 +61,34 @@ model PedidoItem {
   quantity  Int
   order     Pedido   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product   Producto @relation(fields: [productId], references: [id])
+}
+
+model Carrito {
+  id        Int           @id @default(autoincrement())
+  userId    Int           @unique
+  version   Int           @default(1)
+  updatedAt DateTime      @updatedAt
+  user      Usuario       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CarritoItem[]
+  imports   CarritoImport[]
+}
+
+model CarritoItem {
+  id        Int      @id @default(autoincrement())
+  cartId    Int
+  productId Int
+  quantity  Int
+  cart      Carrito  @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Producto @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@unique([cartId, productId])
+}
+
+model CarritoImport {
+  id       Int     @id @default(autoincrement())
+  cartId   Int
+  importId String
+  cart     Carrito @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, importId])
 }

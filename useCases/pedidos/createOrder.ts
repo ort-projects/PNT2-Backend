@@ -1,4 +1,4 @@
-import type { PedidosDao, ProductosDao, UsuariosDao } from '../../types/daos.js'
+import type { CarritoDao, PedidosDao, ProductosDao, UsuariosDao } from '../../types/daos.js'
 import AppError from '../../errors/AppError.js'
 import type { OrderInput } from '../../schemas/orderSchema.js'
 import type { Pedido } from '../../types/entities.js'
@@ -9,11 +9,23 @@ export default async function createOrder(
     data: OrderInput,
     pedidosDao: PedidosDao,
     usuariosDao: UsuariosDao,
-    productosDao: ProductosDao
+    productosDao: ProductosDao,
+    carritoDao: CarritoDao,
 ): Promise<Pedido> {
     const usuario = await usuariosDao.getUserByUsername(username)
     if (!usuario) {
         throw new AppError('USUARIO_NO_ENCONTRADO', 'No se encontró el usuario autenticado.', 404)
+    }
+
+    if ('carritoVersion' in data) {
+        const order = await pedidosDao.createFromCart(usuario.id, data.carritoVersion)
+        if (order) return toPedido(order)
+
+        const cart = await carritoDao.get(usuario.id)
+        if (cart.version !== data.carritoVersion) {
+            throw new AppError('CARRITO_VERSION_DESACTUALIZADA', 'El carrito cambió. Actualizalo antes de confirmar la compra.', 409)
+        }
+        throw new AppError('CARRITO_VACIO', 'El carrito está vacío.', 400)
     }
 
     const ids = [...new Set(data.items.map((item) => item.productId))]

@@ -29,7 +29,24 @@ export interface PedidosFiltro {
 
 export interface PedidosDao {
     save(data: NuevoPedido): Promise<Pedido>;
+    createFromCart(userId: number, version: number): Promise<PedidoConDetalle | undefined>;
     getOrdersByUsername(username: string): Promise<PedidoConDetalle[]>;
     getAllOrders(filters?: PedidosFiltro): Promise<PedidoConDetalle[]>;
     updateStatus(id: number, status: EstadoPedido): Promise<PedidoConDetalle | undefined>;
+}
+
+export interface CartItemData {
+    productId: number;
+    quantity: number;
+}
+
+export interface CartData {
+    version: number;
+    items: CartItemData[];
+}
+
+export interface CarritoDao {
+    get(userId: number): Promise<CartData>;
+    save(userId: number, version: number, items: CartItemData[]): Promise<CartData | undefined>;
+    import(userId: number, importId: string, items: CartItemData[]): Promise<CartData>;
 }
